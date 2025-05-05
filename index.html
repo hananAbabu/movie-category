@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Recommender</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-lg rounded-4">
+          <div class="card-body p-4">
+            <h3 class="card-title text-center mb-4">🎬 Movie Recommender</h3>
+            
+            <div class="mb-3">
+              <label for="ageInput" class="form-label">Enter your age:</label>
+              <input type="number" id="ageInput" class="form-control" placeholder="e.g. 15" min="0" max="120" />
+            </div>
+
+            <button class="btn btn-primary w-100" onclick="showRecommendation()">Get Recommendations</button>
+
+            <div class="mt-4" id="resultBox"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const movieCategories = [
+      { category: "Kids",
+       minAge: 0,
+        maxAge: 12,
+        movies: [
+  "Finding Nemo", "Toy Story", "Frozen",
+  "Moana", "Encanto", "Zootopia", "Despicable Me",
+  "Up", "Coco", "The Incredibles", "Ratatouille",
+  "Kung Fu Panda", "Shrek", "Tangled", "Paddington"
+]
+ },
+      { category: "Teens",
+       minAge: 13,
+        maxAge: 17, 
+        movies: [
+  "Spider-Man", "The Hunger Games", "Harry Potter",
+  "The Maze Runner", "Divergent", 
+  "Twilight", "Percy Jackson & The Olympians", "The Fault in Our Stars",
+  "The Karate Kid", "Mean Girls", "Clueless", "Enola Holmes",
+  "Back to the Future", "Jumanji: Welcome to the Jungle"
+]
+    },
+      { category: "Young Adults",
+       minAge: 18,
+        maxAge: 25,
+        movies: [
+  "Inception", "The Social Network", "Interstellar",
+  "The Matrix", "Fight Club", "La La Land", "Whiplash",
+  "Everything Everywhere All At Once", "The Perks of Being a Wallflower",
+  "Get Out", "Don’t Look Up", "The Edge of Seventeen",
+  "Call Me by Your Name", "Dune", "Ready Player One"
+]
+        },
+      { category: "Adults",
+       minAge: 26,
+        maxAge: 60,
+        movies: [
+  "The Godfather", "Forrest Gump", "Shawshank Redemption",
+  "The Dark Knight", "Pulp Fiction", "Gladiator", "Good Will Hunting",
+  "The Pursuit of Happyness", "12 Years a Slave", "Spotlight",
+  "The King's Speech", "Argo", "The Revenant", "Joker", "Oppenheimer"
+]
+        },
+      { category: "Seniors",
+       minAge: 61,
+        maxAge: 120,
+        movies: [
+  "Casablanca", "The Sound of Music",
+  "Gone with the Wind", "Singin’ in the Rain", "My Fair Lady",
+  "Driving Miss Daisy", "The Bridge on the River Kwai",
+  "The African Queen", "Roman Holiday", "On Golden Pond",
+  "An Affair to Remember", "Guess Who’s Coming to Dinner",
+  "It’s a Wonderful Life", "Murder on the Orient Express (1974)",
+  "The Bucket List"
+]
+         }
+    ];
+
+    const recommendMovies = age => {
+      if (age < 0 || age > 120 || isNaN(age)) return "Please enter a valid age.";
+
+      const category = movieCategories.find(c => age >= c.minAge && age <= c.maxAge);
+      if (!category) return "No category found.";
+
+      const movies = category.movies.sort(() => Math.random() - 0.5).slice(0, 4);
+      return `Category: <strong>${category.category}</strong><br>Movies: <em>${movies.join(", ")}</em>`;
+    };
+
+    const showRecommendation = () => {
+      const ageInput = document.getElementById("ageInput").value;
+      const resultBox = document.getElementById("resultBox");
+      const message = recommendMovies(Number(ageInput));
+      resultBox.innerHTML = `<div class="alert alert-info">${message}</div>`;
+    };
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
